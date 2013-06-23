@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2010 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.bangbang.support.v4.provider.download;
+
+/**
+ * copied from
+ * https://raw.github.com/android/platform_packages_providers_downloadprovider/android-4.2_r1/src/com/android/providers/downloads/StopRequestException.java
+ * bangbang.song@gmail.com
+ */
+/**
+ * Raised to indicate that the current request should be stopped immediately.
+ *
+ * Note the message passed to this exception will be logged and therefore must be guaranteed
+ * not to contain any PII, meaning it generally can't include any information about the request
+ * URI, headers, or destination filename.
+ */
+class StopRequestException extends Exception {
+    public int mFinalStatus;
+
+    public StopRequestException(int finalStatus, String message) {
+        super(message);
+        mFinalStatus = finalStatus;
+    }
+
+    public StopRequestException(int finalStatus, String message, Throwable throwable) {
+        super(message, throwable);
+        mFinalStatus = finalStatus;
+    }
+}
