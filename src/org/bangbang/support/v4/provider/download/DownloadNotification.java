@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2008 The Andro	id Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@ import java.util.HashMap;
 
 import org.bangbang.android.support.v4.R;
 import org.bangbang.support.v4.provider.Downloads;
+import org.bangbang.support.v4.util.SparseLongArray;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -41,6 +43,7 @@ import android.text.TextUtils;
  * of this component to show the download in the notification manager.
  *
  */
+@SuppressLint("NewApi")
 class DownloadNotification {
 
     private Context mContext;
@@ -181,11 +184,19 @@ class DownloadNotification {
             boolean hasContentText = false;
             StringBuilder title = new StringBuilder(item.mTitles[0]);
             if (item.mTitleCount > 1) {
-                title.append(mContext.getString(R.string.notification_filename_separator));
+                title.append(
+//                		mContext.getString(
+                				"R.string.notification_filename_separator"
+//                				)
+                		)
+                				;
                 title.append(item.mTitles[1]);
                 if (item.mTitleCount > 2) {
-                    title.append(mContext.getString(R.string.notification_filename_extras,
-                            new Object[] { Integer.valueOf(item.mTitleCount - 2) }));
+                    title.append(
+//                    		mContext.getString(
+                    				"R.string.notification_filename_extras"
+//                            ,new Object[] { Integer.valueOf(item.mTitleCount - 2) })
+                            );
                 }
             } else if (!TextUtils.isEmpty(item.mDescription)) {
                 builder.setContentText(item.mDescription);

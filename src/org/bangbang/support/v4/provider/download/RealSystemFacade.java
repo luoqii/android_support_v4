@@ -17,6 +17,7 @@
 package org.bangbang.support.v4.provider.download;
 
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -60,9 +61,11 @@ class RealSystemFacade implements SystemFacade {
         return null;
     }
 
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public boolean isActiveNetworkMetered() {
-        final ConnectivityManager conn = null;
+        //final 
+        ConnectivityManager conn = null;
 //        		conn = ConnectivityManager.from(mContext);
         conn = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         return conn.isActiveNetworkMetered();
@@ -88,11 +91,13 @@ class RealSystemFacade implements SystemFacade {
         return isRoaming;
     }
 
-    public Long getMaxBytesOverMobile() {
+    @SuppressLint("NewApi")
+	public Long getMaxBytesOverMobile() {
         return DownloadManager.getMaxBytesOverMobile(mContext);
     }
 
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public Long getRecommendedMaxBytesOverMobile() {
         return DownloadManager.getRecommendedMaxBytesOverMobile(mContext);
     }
