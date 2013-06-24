@@ -33,8 +33,6 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
 import android.util.Pair;
 /**

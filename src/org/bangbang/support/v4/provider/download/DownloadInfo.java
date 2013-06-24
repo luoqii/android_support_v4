@@ -56,11 +56,6 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
-/**
- * copied from
- * https://raw.github.com/android/platform_packages_providers_downloadprovider/master/src/com/android/providers/downloads/DownloadInfo.java
- * bangbang.song@gmail.com
- */
 
 /**
  * Stores information about an individual download.

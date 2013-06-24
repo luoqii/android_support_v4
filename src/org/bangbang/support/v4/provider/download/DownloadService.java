@@ -20,9 +20,7 @@ package org.bangbang.support.v4.provider.download;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +31,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -43,12 +40,10 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Process;
-import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 /**
  * copied form

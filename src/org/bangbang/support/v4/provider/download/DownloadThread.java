@@ -29,13 +29,11 @@ import java.net.URISyntaxException;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.params.ConnRouteParams;
 import org.bangbang.support.v4.provider.Downloads;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Proxy;
 import android.net.TrafficStats;
 import android.net.http.AndroidHttpClient;
 import android.os.PowerManager;

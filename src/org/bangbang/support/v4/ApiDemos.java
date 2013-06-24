@@ -16,6 +16,14 @@
 
 package org.bangbang.support.v4;
 
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,23 +33,26 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * 
+ * <p>
  * copy from android ApiDemo.
+ * in android ApiDemo, a "supportv4" will add in the first page.
+ * what i add:
+ * <p>
+ * 1) filter out all other app'd demos;
+ * <p>
+ * 2) shorten common prefix.
  * 
+ * @see #getInitPrefix()
  * @author bangbang.song@gmail.com
  *
  */
 public class ApiDemos extends ListActivity {
-
+	
+	String getInitPrefix(){
+		return "supportv4";
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +61,7 @@ public class ApiDemos extends ListActivity {
         String path = intent.getStringExtra("com.example.android.apis.Path");
         
         if (path == null) {
-            path = "";
+            path = getInitPrefix();
         }
 
         setListAdapter(new SimpleAdapter(this, getData(path),
@@ -87,6 +98,11 @@ public class ApiDemos extends ListActivity {
 
         for (int i = 0; i < len; i++) {
             ResolveInfo info = list.get(i);
+            
+            if (!info.activityInfo.applicationInfo.packageName.contains(getPackageName())) {
+            	continue;
+            }
+            
             CharSequence labelSeq = info.loadLabel(pm);
             String label = labelSeq != null
                     ? labelSeq.toString()

@@ -20,17 +20,6 @@ package org.bangbang.support.v4.provider.download;
 import android.content.Context;
 import android.drm.DrmManagerClient;
 import android.util.Log;
-/**
- * copied from 
- * https://raw.github.com/android/platform_packages_providers_downloadprovider/android-4.2_r1/src/com/android/providers/downloads/DownloadDrmHelper.java
- * 
- * bangbang.song@gmail.com
- *
- */
-
-import android.content.Context;
-import android.drm.DrmManagerClient;
-import android.util.Log;
 
 public class DownloadDrmHelper {
 

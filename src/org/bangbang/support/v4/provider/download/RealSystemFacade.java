@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 /**
  * copied from
