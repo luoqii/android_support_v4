@@ -47,7 +47,7 @@ import android.widget.SimpleAdapter;
  * @author bangbang.song@gmail.com
  *
  */
-public class ApiDemos extends ListActivity {
+public class V4ApiDemos extends ListActivity {
 	
 	String getInitPrefix(){
 		return "supportv4";
@@ -149,7 +149,7 @@ public class ApiDemos extends ListActivity {
     
     protected Intent browseIntent(String path) {
         Intent result = new Intent();
-        result.setClass(this, ApiDemos.class);
+        result.setClass(this, V4ApiDemos.class);
         result.putExtra("com.example.android.apis.Path", path);
         return result;
     }
