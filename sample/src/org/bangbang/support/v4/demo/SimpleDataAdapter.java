@@ -17,36 +17,30 @@ public class SimpleDataAdapter extends ArrayAdapter<String>{
 	public SimpleDataAdapter(Context context, int resource,
 			int textViewResourceId, List<String> objects) {
 		super(context, resource, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SimpleDataAdapter(Context context, int resource,
 			int textViewResourceId, String[] objects) {
 		super(context, resource, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 	}	
 
 	public SimpleDataAdapter(Context context, int resource,
 			int textViewResourceId) {
 		super(context, resource, textViewResourceId);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SimpleDataAdapter(Context context, int textViewResourceId,
 			List<String> objects) {
 		super(context, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SimpleDataAdapter(Context context, int textViewResourceId,
 			String[] objects) {
 		super(context, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SimpleDataAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
