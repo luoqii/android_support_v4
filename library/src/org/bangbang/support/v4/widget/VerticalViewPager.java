@@ -1452,12 +1452,12 @@ public class VerticalViewPager extends ViewGroup {
         }
         final ItemInfo ii = infoForCurrentScrollPosition();
         final int height = getHeight();
-        final int widthWithMargin = height + mPageMargin;
+        final int heightWithMargin = height + mPageMargin;
         final float marginOffset = (float) mPageMargin / height;
         final int currentPage = ii.position;
         final float pageOffset = (((float) ypos / height) - ii.offset) /
                 (ii.widthFactor + marginOffset);
-        final int offsetPixels = (int) (pageOffset * widthWithMargin);
+        final int offsetPixels = (int) (pageOffset * heightWithMargin);
 
         mCalledSuper = false;
         onPageScrolled(currentPage, pageOffset, offsetPixels);
@@ -1800,7 +1800,7 @@ public class VerticalViewPager extends ViewGroup {
                 if (mIsBeingDragged) {
                     final VelocityTracker velocityTracker = mVelocityTracker;
                     velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-                    int initialVelocity = (int) VelocityTrackerCompat.getXVelocity(
+                    int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(
                             velocityTracker, mActivePointerId);
                     mPopulatePending = true;
                     final int height = getHeight();
@@ -1922,9 +1922,9 @@ public class VerticalViewPager extends ViewGroup {
      *         This can be synthetic for a missing middle page; the 'object' field can be null.
      */
     private ItemInfo infoForCurrentScrollPosition() {
-        final int width = getWidth();
-        final float scrollOffset = width > 0 ? (float) getScrollX() / width : 0;
-        final float marginOffset = width > 0 ? (float) mPageMargin / width : 0;
+        final int height = getHeight();
+        final float scrollOffset = height > 0 ? (float) getScrollY() / height : 0;
+        final float marginOffset = height > 0 ? (float) mPageMargin / height : 0;
         int lastPos = -1;
         float lastOffset = 0.f;
         float lastWidth = 0.f;
