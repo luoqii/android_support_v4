@@ -2670,19 +2670,27 @@ public class ListView extends AbsListView {
         newFocus.getDrawingRect(mTempRect);
         offsetDescendantRectToMyCoords(newFocus, mTempRect);
         if (direction == View.FOCUS_UP) {
-            if (mTempRect.top < mListPadding.top) {
-                amountToScroll = mListPadding.top - mTempRect.top;
-                if (positionOfNewFocus > 0) {
-                    amountToScroll += getArrowScrollPreviewLength();
-                }
+            int goalTop = mListPadding.top;
+            if (positionOfNewFocus > 0) {
+                goalTop += getArrowScrollPreviewLength();
+          }
+            if (mTempRect.top < goalTop) {
+                amountToScroll = goalTop - mTempRect.top;
+//                if (positionOfNewFocus > 0) {
+//                    amountToScroll += getArrowScrollPreviewLength();
+//                }
             }
         } else {
             final int listBottom = getHeight() - mListPadding.bottom;
-            if (mTempRect.bottom > listBottom) {
-                amountToScroll = mTempRect.bottom - listBottom;
-                if (positionOfNewFocus < mItemCount - 1) {
-                    amountToScroll += getArrowScrollPreviewLength();
-                }
+            int goalBottom = listBottom;
+            if (positionOfNewFocus < mItemCount - 1) {
+                goalBottom -= getVerticalFadingEdgeLength();
+            }
+            if (mTempRect.bottom > goalBottom) {
+                amountToScroll = mTempRect.bottom - goalBottom;
+//                if (positionOfNewFocus < mItemCount - 1) {
+//                    amountToScroll += getArrowScrollPreviewLength();
+//                }
             }
         }
         return amountToScroll;
