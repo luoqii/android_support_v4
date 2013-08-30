@@ -28,7 +28,6 @@ import org.bangbang.android.support.v4.R;
 import org.bangbang.support.v4.app.DownloadManager;
 import org.bangbang.support.v4.provider.Downloads;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -47,7 +46,6 @@ import com.google.common.collect.Multimap;
  * states. Collapses similar downloads into a single notification, and builds
  * {@link PendingIntent} that launch towards {@link DownloadReceiver}.
  */
-@SuppressLint("NewApi")
 public class DownloadNotifier {
 
     private static final int TYPE_ACTIVE = 1;
