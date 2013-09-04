@@ -28,6 +28,7 @@ public class VertivalViewPagerDemo extends Activity {
 
 		mVerticalViewpager = (VerticalViewPager) findViewById(R.id.vertical_viewpager);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+		mViewPager.setOffscreenPageLimit(1);
 
 		String[] objects = new String[OBJECTS];
 		for (int i = 0; i < OBJECTS; i++) {
@@ -88,7 +89,7 @@ public class VertivalViewPagerDemo extends Activity {
 			public float getPageWidth(int position) {
 			    // TODO Auto-generated method stub
 //			    return super.getPageWidth(position);
-			    return .8f;
+			    return .5f;
 			}
 		};
 		mVerticalViewpager.setAdapter(mPagerAdapter);

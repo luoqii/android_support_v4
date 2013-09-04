@@ -64,6 +64,8 @@ import android.widget.Scroller;
  * 
  * what i do:
  * # replace ViewCompat with android.support.v4.view.ViewCompat
+ * # adjust mLastOffset & mFirstOffset
+ * # give a anchor-value for first item's offset
  */
 /**
  * Layout manager that allows the user to flip left and right
@@ -486,8 +488,9 @@ public class ViewPager extends ViewGroup {
         if (curInfo != null) {
             final int width = getWidth();
             // bangbang.S
-            destX = (int) (width * Math.max(mFirstOffset,
-                    Math.min(curInfo.offset - (1f - curInfo.widthFactor) / 2.f, mLastOffset)));
+            float factor = Math.max(mFirstOffset,
+                    Math.min(curInfo.offset - (1f - curInfo.widthFactor) / 2.f, mLastOffset));
+            destX = (int) (width * factor);
         }
         if (smoothScroll) {
             smoothScrollTo(destX, 0, velocity);
@@ -1005,9 +1008,15 @@ public class ViewPager extends ViewGroup {
 //        curItem.offset = offset;
         
         int pos = curItem.position - 1;
-        mFirstOffset = curItem.position == 0 ? curItem.offset : -Float.MAX_VALUE;
+        mFirstOffset = curItem.position == 0 ? curItem.offset
+                //bangbang.S
+                - (1f - curItem.widthFactor) / 2.f
+                : -Float.MAX_VALUE;
         mLastOffset = curItem.position == N - 1 ?
-                curItem.offset + curItem.widthFactor - 1 : Float.MAX_VALUE;
+                curItem.offset + curItem.widthFactor - 1 
+                // bangbang.S
+                + (1f - curItem.widthFactor) / 2.f 
+                : Float.MAX_VALUE;
         // Previous pages
         for (int i = curIndex - 1; i >= 0; i--, pos--) {
             final ItemInfo ii = mItems.get(i);
@@ -1016,7 +1025,7 @@ public class ViewPager extends ViewGroup {
             }
             offset -= ii.widthFactor + marginOffset;
             ii.offset = offset;
-            if (ii.position == 0) mFirstOffset = offset;
+            if (ii.position == 0) mFirstOffset = offset - (1f - curItem.widthFactor) / 2.f;
         }
         offset = curItem.offset + curItem.widthFactor + marginOffset;
         pos = curItem.position + 1;
@@ -1027,7 +1036,10 @@ public class ViewPager extends ViewGroup {
                 offset += mAdapter.getPageWidth(pos++) + marginOffset;
             }
             if (ii.position == N - 1) {
-                mLastOffset = offset + ii.widthFactor - 1;
+                mLastOffset = offset + ii.widthFactor - 1  
+                        //bangbang.S
+                        + (1f - curItem.widthFactor) / 2.f
+                        ;
             }
             ii.offset = offset;
             offset += ii.widthFactor + marginOffset;
@@ -1314,7 +1326,8 @@ public class ViewPager extends ViewGroup {
             }
         } else {
             final ItemInfo ii = infoForPosition(mCurItem);
-            final float scrollOffset = ii != null ? Math.min(ii.offset, mLastOffset) : 0;
+            // bangbang.S
+            final float scrollOffset = ii != null ? Math.min(ii.offset - (1.0f - ii.widthFactor) / 2.0f, mLastOffset) : 0;
             final int scrollPos = (int) (scrollOffset * width);
             if (scrollPos != getScrollX()) {
                 completeScroll();
