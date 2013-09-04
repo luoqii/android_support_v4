@@ -95,7 +95,7 @@ import android.widget.Scroller;
  */
 public class ViewPager extends ViewGroup {
     private static final String TAG = "ViewPager";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private static final boolean USE_CACHE = false;
 
@@ -485,8 +485,9 @@ public class ViewPager extends ViewGroup {
         int destX = 0;
         if (curInfo != null) {
             final int width = getWidth();
+            // bangbang.S
             destX = (int) (width * Math.max(mFirstOffset,
-                    Math.min(curInfo.offset, mLastOffset)));
+                    Math.min(curInfo.offset - (1f - curInfo.widthFactor) / 2.f, mLastOffset)));
         }
         if (smoothScroll) {
             smoothScrollTo(destX, 0, velocity);
@@ -506,6 +507,10 @@ public class ViewPager extends ViewGroup {
             completeScroll();
             scrollTo(destX, 0);
         }
+    }
+    
+    public void scrollTo(int x, int y) {
+        super.scrollTo(x, y);
     }
 
     /**
@@ -833,6 +838,8 @@ public class ViewPager extends ViewGroup {
 
         if (curItem == null && N > 0) {
             curItem = addNewItem(mCurItem, curIndex);
+            // bangbang.S
+            curItem.offset = (1.0f - curItem.widthFactor) / 2.0f;
         }
 
         // Fill 3x the available width or up to the number of offscreen
@@ -993,6 +1000,10 @@ public class ViewPager extends ViewGroup {
         // Base all offsets off of curItem.
         final int itemCount = mItems.size();
         float offset = curItem.offset;
+        
+//        offset += (1.0 - curItem.widthFactor) / 2.0;
+//        curItem.offset = offset;
+        
         int pos = curItem.position - 1;
         mFirstOffset = curItem.position == 0 ? curItem.offset : -Float.MAX_VALUE;
         mLastOffset = curItem.position == N - 1 ?
@@ -1021,6 +1032,15 @@ public class ViewPager extends ViewGroup {
             ii.offset = offset;
             offset += ii.widthFactor + marginOffset;
         }
+        
+        final int SIZE = mItems.size();
+        String log = "";
+        for (int i = 0 ; i < SIZE; i++) {
+            final ItemInfo ii = mItems.get(i);
+            log += "," + ii.offset;
+        }
+        log = log.replaceFirst(",", "");
+        Log.d(TAG, log);
 
         mNeedCalculatePageOffsets = false;
     }
@@ -1399,6 +1419,7 @@ public class ViewPager extends ViewGroup {
                     if (DEBUG) Log.v(TAG, "Positioning #" + i + " " + child + " f=" + ii.object
                             + ":" + childLeft + "," + childTop + " " + child.getMeasuredWidth()
                             + "x" + child.getMeasuredHeight());
+                    Log.d(TAG, "scrollx: " + getScrollX());
                     child.layout(childLeft, childTop,
                             childLeft + child.getMeasuredWidth(),
                             childTop + child.getMeasuredHeight());

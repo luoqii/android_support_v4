@@ -2,11 +2,11 @@ package org.bangbang.support.v4.demo;
 
 import org.bangbang.android.support.v4.R;
 import org.bangbang.support.v4.widget.VerticalViewPager;
+import org.bangbang.support.v4.widget.ViewPager;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -82,6 +82,13 @@ public class VertivalViewPagerDemo extends Activity {
 			@Override
 			public int getCount() {
 				return mAdapter.getCount();
+			}
+			
+			@Override
+			public float getPageWidth(int position) {
+			    // TODO Auto-generated method stub
+//			    return super.getPageWidth(position);
+			    return .8f;
 			}
 		};
 		mVerticalViewpager.setAdapter(mPagerAdapter);
