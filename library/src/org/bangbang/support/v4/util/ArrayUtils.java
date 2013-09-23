@@ -25,6 +25,8 @@ import java.lang.reflect.Array;
  * copied from
  * https://raw.github.com/android/platform_frameworks_base/android-4.2_r1/core/java/com/android/internal/util/ArrayUtils.java
  * bangbang.song@gmail.com
+ * 
+ * 
  */
 /**
  * ArrayUtils contains some methods that you can call to find out
