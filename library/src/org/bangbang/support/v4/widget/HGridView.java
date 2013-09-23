@@ -373,7 +373,7 @@ public class HGridView extends HAbsListView {
         }
 
         final int fadingEdgeLength = getVerticalFadingEdgeLength();
-        final int topSelectionPixel = getTopSelectionPixel(childrenTop, fadingEdgeLength, rowStart);
+        final int topSelectionPixel = getLeftSelectionPixel(childrenTop, fadingEdgeLength, rowStart);
 
         final View sel = makeColumn(mStackFromBottom ? rowEnd : rowStart, topSelectionPixel, true);
         mFirstPosition = rowStart;
@@ -386,7 +386,7 @@ public class HGridView extends HAbsListView {
             fillLeft(rowStart - numRows, referenceView.getTop() - verticalSpacing);
             adjustViewsUpOrDown();
         } else {
-            final int bottomSelectionPixel = getBottomSelectionPixel(childrenBottom,
+            final int bottomSelectionPixel = getRightSelectionPixel(childrenBottom,
                     fadingEdgeLength, numRows, rowStart);
             final int offset = bottomSelectionPixel - referenceView.getBottom();
 //            offsetChildrenTopAndBottom(offset);
@@ -640,16 +640,16 @@ public class HGridView extends HAbsListView {
      * location. The selection may be moved so that it does not intersect the
      * faded edges. The grid is then filled upwards and downwards from there.
      *
-     * @param selectedTop Where the selected item should be
-     * @param childrenTop Where to start drawing children
-     * @param childrenBottom Last pixel where children can be drawn
+     * @param selectedLeft Where the selected item should be
+     * @param childrenLeft Where to start drawing children
+     * @param childrenRight Last pixel where children can be drawn
      * @return The view that currently has selection
      */
-    private View fillFromSelection(int selectedTop, int childrenTop, int childrenBottom) {
-        final int fadingEdgeLength = getVerticalFadingEdgeLength();
+    private View fillFromSelection(int selectedLeft, int childrenLeft, int childrenRight) {
+        final int fadingEdgeLength = getHorizontalFadingEdgeLength();
         final int selectedPosition = mSelectedPosition;
         final int numRows = mNumRows;
-        final int verticalSpacing = mRequestedVerticalSpacing;
+        final int horizontalSpacing = mHorizontalSpacing;
 
         int rowStart;
         int rowEnd = -1;
@@ -666,26 +666,26 @@ public class HGridView extends HAbsListView {
         View sel;
         View referenceView;
 
-        int topSelectionPixel = getTopSelectionPixel(childrenTop, fadingEdgeLength, rowStart);
-        int bottomSelectionPixel = getBottomSelectionPixel(childrenBottom, fadingEdgeLength,
+        int leftSelectionPixel = getLeftSelectionPixel(childrenLeft, fadingEdgeLength, rowStart);
+        int rightSelectionPixel = getRightSelectionPixel(childrenRight, fadingEdgeLength,
                 numRows, rowStart);
 
-        sel = makeColumn(mStackFromBottom ? rowEnd : rowStart, selectedTop, true);
+        sel = makeColumn(mStackFromBottom ? rowEnd : rowStart, selectedLeft, true);
         // Possibly changed again in fillUp if we add rows above this one.
         mFirstPosition = rowStart;
 
         referenceView = mReferenceView;
-        adjustForLeftFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
-        adjustForRightFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
+        adjustForLeftFadingEdge(referenceView, leftSelectionPixel, rightSelectionPixel);
+        adjustForRightFadingEdge(referenceView, leftSelectionPixel, rightSelectionPixel);
 
         if (!mStackFromBottom) {
-            fillLeft(rowStart - numRows, referenceView.getTop() - verticalSpacing);
+            fillLeft(rowStart - numRows, referenceView.getLeft() - horizontalSpacing);
             adjustViewsUpOrDown();
-            fillLeft(rowStart + numRows, referenceView.getBottom() + verticalSpacing);
+            fillLeft(rowStart + numRows, referenceView.getRight() + horizontalSpacing);
         } else {
-            fillLeft(rowEnd + numRows, referenceView.getBottom() + verticalSpacing);
+            fillLeft(rowEnd + numRows, referenceView.getRight() + horizontalSpacing);
             adjustViewsUpOrDown();
-            fillLeft(rowStart - 1, referenceView.getTop() - verticalSpacing);
+            fillLeft(rowStart - 1, referenceView.getLeft() - horizontalSpacing);
         }
 
 
@@ -695,37 +695,37 @@ public class HGridView extends HAbsListView {
     /**
      * Calculate the bottom-most pixel we can draw the selection into
      *
-     * @param childrenBottom Bottom pixel were children can be drawn
+     * @param childrenRight Bottom pixel were children can be drawn
      * @param fadingEdgeLength Length of the fading edge in pixels, if present
      * @param numColumns Number of columns in the grid
      * @param rowStart The start of the row that will contain the selection
      * @return The bottom-most pixel we can draw the selection into
      */
-    private int getBottomSelectionPixel(int childrenBottom, int fadingEdgeLength,
+    private int getRightSelectionPixel(int childrenRight, int fadingEdgeLength,
             int numColumns, int rowStart) {
         // Last pixel we can draw the selection into
-        int bottomSelectionPixel = childrenBottom;
+        int rightSelectionPixel = childrenRight;
         if (rowStart + numColumns - 1 < mItemCount - 1) {
-            bottomSelectionPixel -= fadingEdgeLength;
+            rightSelectionPixel -= fadingEdgeLength;
         }
-        return bottomSelectionPixel;
+        return rightSelectionPixel;
     }
 
     /**
      * Calculate the top-most pixel we can draw the selection into
      *
-     * @param childrenTop Top pixel were children can be drawn
+     * @param childrenLeft Top pixel were children can be drawn
      * @param fadingEdgeLength Length of the fading edge in pixels, if present
      * @param rowStart The start of the row that will contain the selection
      * @return The top-most pixel we can draw the selection into
      */
-    private int getTopSelectionPixel(int childrenTop, int fadingEdgeLength, int rowStart) {
+    private int getLeftSelectionPixel(int childrenLeft, int fadingEdgeLength, int rowStart) {
         // first pixel we can draw the selection into
-        int topSelectionPixel = childrenTop;
+        int leftSelectionPixel = childrenLeft;
         if (rowStart > 0) {
-            topSelectionPixel += fadingEdgeLength;
+            leftSelectionPixel += fadingEdgeLength;
         }
-        return topSelectionPixel;
+        return leftSelectionPixel;
     }
 
     /**
@@ -829,8 +829,8 @@ public class HGridView extends HAbsListView {
 
         final int rowDelta = columnStart - oldColumnStart;
 
-        final int topSelectionPixel = getTopSelectionPixel(childrenLeft, fadingEdgeLength, columnStart);
-        final int bottomSelectionPixel = getBottomSelectionPixel(childrenRight, fadingEdgeLength,
+        final int topSelectionPixel = getLeftSelectionPixel(childrenLeft, fadingEdgeLength, columnStart);
+        final int bottomSelectionPixel = getRightSelectionPixel(childrenRight, fadingEdgeLength,
                 numRows, columnStart);
 
         // Possibly changed again in fillUp if we add rows above this one.
@@ -1165,9 +1165,9 @@ public class HGridView extends HAbsListView {
             switch (mLayoutMode) {
             case LAYOUT_SET_SELECTION:
                 if (newSel != null) {
-                    sel = fillFromSelection(newSel.getTop(), childrenTop, childrenBottom);
+                    sel = fillFromSelection(newSel.getLeft(), childrenLeft, childrenRight);
                 } else {
-                    sel = fillSelection(childrenTop, childrenBottom);
+                    sel = fillSelection(childrenLeft, childrenRight);
                 }
                 break;
             case LAYOUT_FORCE_TOP:
