@@ -802,7 +802,7 @@ public class HGridView extends HAbsListView {
      * @return The view that currently has selection
      */
     private View moveSelection(int delta, int childrenLeft, int childrenRight) {
-        final int fadingEdgeLength = getVerticalFadingEdgeLength();
+        final int fadingEdgeLength = getHorizontalFadingEdgeLength();
         final int selectedPosition = mSelectedPosition;
         final int numRows = mNumRows;
         final int verticalSpacing = mRequestedVerticalSpacing;
@@ -829,8 +829,8 @@ public class HGridView extends HAbsListView {
 
         final int rowDelta = columnStart - oldColumnStart;
 
-        final int topSelectionPixel = getLeftSelectionPixel(childrenLeft, fadingEdgeLength, columnStart);
-        final int bottomSelectionPixel = getRightSelectionPixel(childrenRight, fadingEdgeLength,
+        final int leftSelectionPixel = getLeftSelectionPixel(childrenLeft, fadingEdgeLength, columnStart);
+        final int rightSelectionPixel = getRightSelectionPixel(childrenRight, fadingEdgeLength,
                 numRows, columnStart);
 
         // Possibly changed again in fillUp if we add rows above this one.
@@ -850,7 +850,7 @@ public class HGridView extends HAbsListView {
             sel = makeColumn(mStackFromBottom ? columnEnd : columnStart, oldRight + horizontalSpacing, true);
             referenceView = mReferenceView;
 
-            adjustForRightFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
+            adjustForRightFadingEdge(referenceView, leftSelectionPixel, rightSelectionPixel);
         } else if (rowDelta < 0) {
             /*
              * Case 2: Scrolling to left.
@@ -861,7 +861,7 @@ public class HGridView extends HAbsListView {
             sel = makeColumn(mStackFromBottom ? columnEnd : columnStart, oldLeft - horizontalSpacing, false);
             referenceView = mReferenceView;
 
-            adjustForLeftFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
+            adjustForLeftFadingEdge(referenceView, leftSelectionPixel, rightSelectionPixel);
         } else {
             /*
              * Keep selection where it was
