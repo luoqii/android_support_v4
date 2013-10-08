@@ -2876,7 +2876,9 @@ public class ListView extends AbsListView {
             // fill a rect where the dividers would be for non-selectable items
             // If the list is opaque and the background is also opaque, we don't
             // need to draw anything since the background will do it for us
-            final boolean fillForMissingDividers = isOpaque() && !super.isOpaque();
+            final boolean fillForMissingDividers = 
+            		ReflectUtil.view_isOpaque(this)//isOpaque() 
+            		&& !super.isOpaque();
 
             if (fillForMissingDividers && mDividerPaint == null && mIsCacheColorOpaque) {
                 mDividerPaint = new Paint();
