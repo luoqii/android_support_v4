@@ -39,6 +39,38 @@ public class ReflectUtil {
 		return changed;
 	}
 	
+	public static boolean view_isOpaque(Object viewChild){
+		boolean opaque = true;
+		try {
+			Method[] methods = viewChild.getClass().getDeclaredMethods();
+			Method method = null;
+			for (Method m : methods) {
+				if ("isOpaque".equals(m.getName())) {
+					method = m;
+					method.setAccessible(true);
+					break;
+				}
+			}
+			if (null != method) {
+				opaque = (Boolean) method.invoke(new Object[]{(Object)null});
+			}
+//		} catch (NoSuchMethodException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return opaque;
+	}
+	
 	public static boolean view_isRootNamespace(Object o){
 		boolean root = false;
 		try {
