@@ -5,6 +5,7 @@ import org.bangbang.support.v4.widget.VerticalViewPager;
 import org.bangbang.support.v4.widget.ViewPager;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -36,7 +37,14 @@ public class VertivalViewPagerDemo extends Activity {
 		}
 
 		mAdapter = new SimpleDataAdapter(this,
-				android.R.layout.simple_list_item_1, objects);
+				android.R.layout.simple_list_item_1, objects){
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View v =  super.getView(position, convertView, parent);
+				v.setBackgroundColor(position % 2 == 0 ? Color.YELLOW : Color.GREEN);
+				return v;
+			}
+		};
 		mPagerAdapter = new PagerAdapter() {
 
 			@Override
