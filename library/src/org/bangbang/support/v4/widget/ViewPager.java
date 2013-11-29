@@ -97,7 +97,7 @@ import android.widget.Scroller;
  */
 public class ViewPager extends ViewGroup {
     private static final String TAG = "ViewPager";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private static final boolean USE_CACHE = false;
 
@@ -1045,14 +1045,16 @@ public class ViewPager extends ViewGroup {
             offset += ii.widthFactor + marginOffset;
         }
         
-        final int SIZE = mItems.size();
-        String log = "";
-        for (int i = 0 ; i < SIZE; i++) {
-            final ItemInfo ii = mItems.get(i);
-            log += "," + ii.offset;
+        if (DEBUG) {
+        	final int SIZE = mItems.size();
+        	String log = "";
+        	for (int i = 0 ; i < SIZE; i++) {
+        		final ItemInfo ii = mItems.get(i);
+        		log += "," + ii.offset;
+        	}
+        	log = log.replaceFirst(",", "");
+        	Log.d(TAG, "calculated offsets: " + log);
         }
-        log = log.replaceFirst(",", "");
-        Log.d(TAG, log);
 
         mNeedCalculatePageOffsets = false;
     }
@@ -1429,10 +1431,12 @@ public class ViewPager extends ViewGroup {
                                 MeasureSpec.EXACTLY);
                         child.measure(widthSpec, heightSpec);
                     }
-                    if (DEBUG) Log.v(TAG, "Positioning #" + i + " " + child + " f=" + ii.object
-                            + ":" + childLeft + "," + childTop + " " + child.getMeasuredWidth()
-                            + "x" + child.getMeasuredHeight());
-                    Log.d(TAG, "scrollx: " + getScrollX());
+                    if (DEBUG) {
+                    	Log.v(TAG, "Positioning #" + i + " " + child + " f=" + ii.object
+                    			+ ":" + childLeft + "," + childTop + " " + child.getMeasuredWidth()
+                    			+ "x" + child.getMeasuredHeight());
+                    	Log.d(TAG, "scrollx: " + getScrollX());
+                    }
                     child.layout(childLeft, childTop,
                             childLeft + child.getMeasuredWidth(),
                             childTop + child.getMeasuredHeight());
