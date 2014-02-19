@@ -27,12 +27,7 @@ public class ListViewDemo extends Activity {
 		mList = (ListView) findViewById(R.id.list);
 		mHList = (HListView) findViewById(R.id.hlist);
 		
-		String[] objects = new String[20];
-		for (int i = 0 ; i < 20 ; i++) {
-			objects[i] = "data " + i;
-		}
-		
-		mAdapter = new SimpleDataAdapter(this, android.R.layout.simple_list_item_1, objects);
+		mAdapter = new SimpleDataAdapter(this);
 		
 		mList.setAdapter(mAdapter);		
 		mHList.setAdapter(mAdapter);

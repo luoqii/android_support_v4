@@ -56,13 +56,7 @@ public class ListViewCompareDemo extends Activity {
 			}
 		});
 		
-		
-		String[] objects = new String[LIMIT];
-		for (int i = 0 ; i < LIMIT ; i++) {
-			objects[i] = "data " + i;
-		}
-		
-		mAdapter = new SimpleDataAdapter(this, android.R.layout.simple_list_item_1, objects);
+		mAdapter = new SimpleDataAdapter(this);
 		
 		mList.setAdapter(mAdapter);		
 		mHList.setAdapter(mAdapter);

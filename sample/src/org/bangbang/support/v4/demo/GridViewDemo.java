@@ -24,12 +24,7 @@ public class GridViewDemo extends Activity {
 		mHGrid = (HGridView) findViewById(R.id.hgrid);
 		mGrid = (GridView) findViewById(R.id.grid);
 		
-		String[] objects = new String[OBJECTS];
-		for (int i = 0 ; i < OBJECTS ; i++) {
-			objects[i] = "data " + i;
-		}
-		
-		mAdapter = new SimpleDataAdapter(this, android.R.layout.simple_list_item_1, objects);
+		mAdapter = new SimpleDataAdapter(this);
 		
 		mHGrid.setAdapter(mAdapter);
 		mGrid.setAdapter(mAdapter);

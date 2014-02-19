@@ -13,9 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
 public class VertivalViewPagerDemo extends Activity {
-
-	private static final int OBJECTS = 50;
-
 	private VerticalViewPager mVerticalViewpager;
 	private ViewPager mViewPager;
 	private ListAdapter mAdapter;
@@ -31,17 +28,13 @@ public class VertivalViewPagerDemo extends Activity {
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 		mViewPager.setOffscreenPageLimit(1);
 
-		String[] objects = new String[OBJECTS];
-		for (int i = 0; i < OBJECTS; i++) {
-			objects[i] = "data " + i;
-		}
 
-		mAdapter = new SimpleDataAdapter(this,
-				android.R.layout.simple_list_item_1, objects){
+
+		mAdapter = new SimpleDataAdapter(this){
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View v =  super.getView(position, convertView, parent);
-				v.setBackgroundColor(position % 2 == 0 ? Color.YELLOW : Color.GREEN);
+//				v.setBackgroundColor(position % 2 == 0 ? Color.YELLOW : Color.GREEN);
 				return v;
 			}
 		};
@@ -91,13 +84,6 @@ public class VertivalViewPagerDemo extends Activity {
 			@Override
 			public int getCount() {
 				return mAdapter.getCount();
-			}
-			
-			@Override
-			public float getPageWidth(int position) {
-			    // TODO Auto-generated method stub
-//			    return super.getPageWidth(position);
-			    return .5f;
 			}
 		};
 		mVerticalViewpager.setAdapter(mPagerAdapter);
