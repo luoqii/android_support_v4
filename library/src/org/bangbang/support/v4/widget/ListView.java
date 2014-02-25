@@ -144,7 +144,9 @@ public class ListView extends AbsListView {
     // the single allocated result per list view; kinda cheesey but avoids
     // allocating these thingies too often.
     private ArrowScrollFocusResult mArrowScrollFocusResult = new ArrowScrollFocusResult();
-
+    
+    ScrollRunnable mScroller;
+    
     public ListView(Context context) {
         this(context, null);
     }
@@ -185,6 +187,26 @@ public class ListView extends AbsListView {
 //        mFooterDividersEnabled = a.getBoolean(R.styleable.ListView_footerDividersEnabled, true);
 //
 //        a.recycle();
+        
+        mScroller = new ScrollRunnable(this){
+
+            @Override
+            protected void scrollBy(int delta) {
+                scrollListItemsBy(delta);
+                invalidate();
+            }
+
+            @Override
+            protected void onScrollBegin() {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            protected void onScrollEnd() {
+                // TODO Auto-generated method stub
+                
+            }};
     }
 
     /**
@@ -2198,7 +2220,11 @@ public class ListView extends AbsListView {
         if (getChildCount() <= 0) {
             return false;
         }
-
+        
+        if (mSmoothScrollWhenTrackBall) {
+            mScroller.finishImmediatelyIfNecessary();
+        }
+        
         View selectedView = getSelectedView();
 
         int nextSelectedPosition = lookForSelectablePositionOnScreen(direction);
@@ -2229,8 +2255,15 @@ public class ListView extends AbsListView {
             checkSelectionChanged();
         }
 
-        if (amountToScroll > 0) {
-            scrollListItemsBy((direction == View.FOCUS_UP) ? amountToScroll : -amountToScroll);
+        if (amountToScroll > 0) {    
+            int amount = (direction == View.FOCUS_UP) ? amountToScroll : -amountToScroll;
+        
+            if (mSmoothScrollWhenTrackBall) {
+                mScroller.start(amount, SMOOTH_SCROLL_DURATION);
+            } else {
+                scrollListItemsBy(amount);
+            }
+//            scrollListItemsBy((direction == View.FOCUS_UP) ? amountToScroll : -amountToScroll);
             needToRedraw = true;
         }
 

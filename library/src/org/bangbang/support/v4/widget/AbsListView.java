@@ -69,6 +69,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
 	private static final String TAG = AbsListView.class.getSimpleName();
 	private static final boolean DEBUG = true;
+	protected static final boolean DEBUG_SCROLL = DEBUG & true;
 
     /**
      * Disables the transcript mode.
@@ -488,6 +489,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                 int totalItemCount);
     }
+    
+    protected static final int SMOOTH_SCROLL_DURATION = 500;
+    protected boolean mSmoothScrollWhenTrackBall = false;
 
     public AbsListView(Context context) {
         super(context);
@@ -557,6 +561,10 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
         mDensityScale = getContext().getResources().getDisplayMetrics().density;
+    }
+    
+    public void setSmoothScrollWhenTrakBall(boolean smooth) {
+        mSmoothScrollWhenTrackBall = smooth;
     }
 
     /**

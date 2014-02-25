@@ -20,7 +20,7 @@ import android.view.ViewGroup;
  */
 public class CenterListViewDemo extends Activity {
     private static final String TAG = CenterListViewDemo.class.getSimpleName();
-    private ListView mListView;
+    protected ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

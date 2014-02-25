@@ -3,6 +3,7 @@ package org.bangbang.support.v4.widget;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.SoundEffectConstants;
@@ -22,6 +23,7 @@ import android.widget.ListAdapter;
  * grid come from the {@link ListAdapter} associated with this view.
  */
 public class GridView extends AbsListView {
+    private static final String TAG = GridView.class.getSimpleName();
     public static final int NO_STRETCH = 0;
     public static final int STRETCH_SPACING = 1;
     public static final int STRETCH_COLUMN_WIDTH = 2;
@@ -45,7 +47,9 @@ public class GridView extends AbsListView {
     private int mGravity = Gravity.LEFT;
 
     private final Rect mTempRect = new Rect();
-
+    
+    ScrollRunnable mScroller;
+    
     public GridView(Context context) {
         super(context);
     }
@@ -89,6 +93,27 @@ public class GridView extends AbsListView {
 //        a.recycle();
         
         setNumColumns(2);
+        mScroller = new ScrollRunnable(this){
+
+            @Override
+            protected void scrollBy(int delta) {
+                ViewCompat.offsetChildrenTopAndBottom(GridView.this, delta);
+                positionSelector(getSelectedView());
+                fillGap(delta < 0);
+                invalidate();
+            }
+
+            @Override
+            protected void onScrollEnd() {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            protected void onScrollBegin() {
+                // TODO Auto-generated method stub
+                
+            }};
     }
     
     public int getNumberColumns() {
@@ -626,8 +651,8 @@ public class GridView extends AbsListView {
         mFirstPosition = rowStart;
 
         referenceView = mReferenceView;
-        adjustForTopFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
-        adjustForBottomFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
+        adjustForTopFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel, false);
+        adjustForBottomFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel, false);
 
         if (!mStackFromBottom) {
             fillUp(rowStart - numColumns, referenceView.getTop() - verticalSpacing);
@@ -688,8 +713,8 @@ public class GridView extends AbsListView {
      * @param bottomSelectionPixel The bottommost pixel we can draw the
      *        selection into
      */
-    private void adjustForBottomFadingEdge(View childInSelectedRow,
-            int topSelectionPixel, int bottomSelectionPixel) {
+    private int adjustForBottomFadingEdge(View childInSelectedRow,
+            int topSelectionPixel, int bottomSelectionPixel, boolean calculateOnly) {
         // Some of the newly selected item extends below the bottom of the
         // list
         if (childInSelectedRow.getBottom() > bottomSelectionPixel) {
@@ -702,11 +727,20 @@ public class GridView extends AbsListView {
             // fully into view
             int spaceBelow = childInSelectedRow.getBottom() - bottomSelectionPixel;
             int offset = Math.min(spaceAbove, spaceBelow);
-
+            
             // Now offset the selected item to get it into view
 //            offsetChildrenTopAndBottom(-offset);
-            ViewCompat.offsetChildrenTopAndBottom(this, -offset);
+            if (!calculateOnly) {
+                ViewCompat.offsetChildrenTopAndBottom(this, -offset);
+                if (DEBUG_SCROLL) {
+                    Log.d(TAG, "adjustForBottomFadingEdge(). offset: " + (offset));
+                }
+            }
+            
+            return -offset;
         }
+        
+        return 0;
     }
 
     /**
@@ -718,8 +752,8 @@ public class GridView extends AbsListView {
      * @param bottomSelectionPixel The bottommost pixel we can draw the
      *        selection into
      */
-    private void adjustForTopFadingEdge(View childInSelectedRow,
-            int topSelectionPixel, int bottomSelectionPixel) {
+    private int adjustForTopFadingEdge(View childInSelectedRow,
+            int topSelectionPixel, int bottomSelectionPixel, boolean calculateOnly) {
         // Some of the newly selected item extends above the top of the list
         if (childInSelectedRow.getTop() < topSelectionPixel) {
             // Find space required to bring the top of the selected item
@@ -733,8 +767,17 @@ public class GridView extends AbsListView {
 
             // Now offset the selected item to get it into view
 //            offsetChildrenTopAndBottom(offset);
-            ViewCompat.offsetChildrenTopAndBottom(this, offset);
+            if (!calculateOnly) {
+                ViewCompat.offsetChildrenTopAndBottom(this, offset);
+                if (DEBUG_SCROLL) {
+                    Log.d(TAG, "adjustForTopFadingEdge(). offset: " + (offset));
+                }
+            }
+            
+            return offset;
         }
+        
+        return 0;
     }
 
     /**
@@ -786,7 +829,7 @@ public class GridView extends AbsListView {
 
         View sel;
         View referenceView;
-
+        int scrollDelta = 0;
         if (rowDelta > 0) {
             /*
              * Case 1: Scrolling down.
@@ -797,8 +840,13 @@ public class GridView extends AbsListView {
 
             sel = makeRow(mStackFromBottom ? rowEnd : rowStart, oldBottom + verticalSpacing, true);
             referenceView = mReferenceView;
-
-            adjustForBottomFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
+            
+            if (mSmoothScrollWhenTrackBall) {
+                scrollDelta += adjustForBottomFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel, true);
+            } else {
+                adjustForBottomFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel, false);
+            }
+//            adjustForBottomFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
         } else if (rowDelta < 0) {
             /*
              * Case 2: Scrolling up.
@@ -808,8 +856,13 @@ public class GridView extends AbsListView {
 
             sel = makeRow(mStackFromBottom ? rowEnd : rowStart, oldTop - verticalSpacing, false);
             referenceView = mReferenceView;
-
-            adjustForTopFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
+            
+            if (mSmoothScrollWhenTrackBall) {
+                scrollDelta += adjustForTopFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel, true);
+            } else {
+                adjustForTopFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel, false);
+            }
+//            adjustForTopFadingEdge(referenceView, topSelectionPixel, bottomSelectionPixel);
         } else {
             /*
              * Keep selection where it was
@@ -822,15 +875,30 @@ public class GridView extends AbsListView {
         }
 
         if (!mStackFromBottom) {
-            fillUp(rowStart - numColumns, referenceView.getTop() - verticalSpacing);
+            fillUp(rowStart - numColumns, referenceView.getTop() - verticalSpacing); 
+            if (mSmoothScrollWhenTrackBall) {
+                scrollDelta += adjustViewsUpOrDown(true);
+            } else {
+                adjustViewsUpOrDown();
+            }
             adjustViewsUpOrDown();
             fillDown(rowStart + numColumns, referenceView.getBottom() + verticalSpacing);
         } else {
             fillDown(rowEnd + numColumns, referenceView.getBottom() + verticalSpacing);
+            if (mSmoothScrollWhenTrackBall) {
+                scrollDelta += adjustViewsUpOrDown(true);
+            } else {
+                adjustViewsUpOrDown();
+            }
             adjustViewsUpOrDown();
             fillUp(rowStart - 1, referenceView.getTop() - verticalSpacing);
         }
-
+        
+        if (mSmoothScrollWhenTrackBall && scrollDelta != 0) {
+            Log.d(TAG, "scrollDelat: " + scrollDelta);
+            mScroller.start(scrollDelta, SMOOTH_SCROLL_DURATION);
+        }
+        
         return sel;
     }
 
@@ -1736,16 +1804,23 @@ public class GridView extends AbsListView {
             requestLayoutIfNecessary();
         }
     }
-
+    
     /**
      * Make sure views are touching the top or bottom edge, as appropriate for
      * our gravity
      */
-    private void adjustViewsUpOrDown() {
+    private int adjustViewsUpOrDown() {
+        return adjustViewsUpOrDown(false);
+    }
+    /**
+     * Make sure views are touching the top or bottom edge, as appropriate for
+     * our gravity
+     */
+    private int adjustViewsUpOrDown(boolean calculateOnly) {
         final int childCount = getChildCount();
 
+        int delta = 0;
         if (childCount > 0) {
-            int delta;
             View child;
 
             if (!mStackFromBottom) {
@@ -1779,11 +1854,16 @@ public class GridView extends AbsListView {
                 }
             }
 
-            if (delta != 0) {
+            if (delta != 0 && !calculateOnly) {
+                if (DEBUG_SCROLL) {
+                    Log.d(TAG, "adjustViewsUpOrDown(). delta: " + (-delta));
+                }
 //                offsetChildrenTopAndBottom(-delta);
                 ViewCompat.offsetChildrenTopAndBottom(this, -delta);
             }
         }
+        
+        return delta;
     }
     
     @Override
