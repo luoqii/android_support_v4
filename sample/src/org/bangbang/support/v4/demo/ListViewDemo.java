@@ -1,15 +1,11 @@
 package org.bangbang.support.v4.demo;
 
 import org.bangbang.android.support.v4.R;
-import org.bangbang.support.v4.widget.AdapterView;
-import org.bangbang.support.v4.widget.AdapterView.OnItemClickListener;
 import org.bangbang.support.v4.widget.HListView;
 import org.bangbang.support.v4.widget.ListView;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ListAdapter;
 
 public class ListViewDemo extends Activity {

@@ -7,7 +7,6 @@ import org.bangbang.support.v4.widget.ListView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
 import android.widget.TextView;

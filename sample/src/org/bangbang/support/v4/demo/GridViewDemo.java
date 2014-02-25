@@ -6,7 +6,6 @@ import org.bangbang.support.v4.widget.HGridView;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.ListAdapter;
 
 public class GridViewDemo extends Activity {

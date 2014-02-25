@@ -5,7 +5,6 @@ import org.bangbang.support.v4.widget.VerticalViewPager;
 import org.bangbang.support.v4.widget.ViewPager;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
