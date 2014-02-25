@@ -12,6 +12,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * place selected item in the vertical center position, if possiable.
+ * 
+ * @author bysong
+ *
+ */
 public class CenterListViewDemo extends Activity {
     private static final String TAG = CenterListViewDemo.class.getSimpleName();
     private ListView mListView;
@@ -72,7 +78,7 @@ public class CenterListViewDemo extends Activity {
         public int getVerticalFadingEdgeLength() {
             int length = super.getVerticalFadingEdgeLength();
             if (getChildCount() > 0) {
-                length = (getHeight() - getChildAt(0).getHeight() )/2;
+                length = (getHeight() - getChildAt(0).getHeight() ) / 2;
             }
             return length;
         }
