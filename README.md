@@ -10,6 +10,7 @@ now support
 * Vertical ViewPager
 * Center-ViewPager
 * Center-ListView
+* Smooth-scroll in ListView (in response to KeyEvent)
 
 to be added
 ------------
