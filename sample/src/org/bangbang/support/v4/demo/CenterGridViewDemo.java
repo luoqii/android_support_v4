@@ -94,7 +94,7 @@ public class CenterGridViewDemo extends Activity {
         	}
         	
             // always, you can adjust this for keep preview space for head & footer.
-            // TRICK，in GridView this method may be called when all child views
+            // TRICK，unlike Listview, in GridView this method may be called when all child views
             // have detached (GridView call detachAllViewsFromParent()), so we 
             // will not dependent on childview's count, we must use other way 
             // to get correct result (hard-coding??? or cache it as long as 

@@ -72,6 +72,7 @@ public class CenterListViewDemo extends Activity {
         }
         
         // always, you can adjust this for keep preview space for head & footer.
+        // set CenterGridViewDemo
         @Override
         public int getVerticalFadingEdgeLength() {
             int length = super.getVerticalFadingEdgeLength();
