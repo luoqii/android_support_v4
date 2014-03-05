@@ -61,19 +61,17 @@ public class CenterListViewDemo extends Activity {
 
         public CenterListView(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
-            // TODO Auto-generated constructor stub
         }
 
         public CenterListView(Context context, AttributeSet attrs) {
             super(context, attrs);
-            // TODO Auto-generated constructor stub
         }
 
         public CenterListView(Context context) {
             super(context);
-            // TODO Auto-generated constructor stub
         }
         
+        // always, you can adjust this for keep preview space for head & footer.
         @Override
         public int getVerticalFadingEdgeLength() {
             int length = super.getVerticalFadingEdgeLength();
