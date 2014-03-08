@@ -1,9 +1,9 @@
 language: java
 
 before_install:
-   -wget http://dl.google.com/android/android-sdk_r18-linux.tgz
-   -tar -zxf android-sdk_r18-linux.tgz
-   -export ANDROID_HOME=`pwd`/android-sdk-linux
-   -export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+   - wget http://dl.google.com/android/android-sdk_r18-linux.tgz
+   - tar -zxf android-sdk_r18-linux.tgz
+   - export ANDROID_HOME=`pwd`/android-sdk-linux
+   - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
-   -android list target
+   - android list target
