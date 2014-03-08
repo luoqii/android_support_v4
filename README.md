@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/luoqii/android_support_v4.png)](https://travis-ci.org/luoqii/android_support_v4)
+
 android_support_v4
 ==================
 
