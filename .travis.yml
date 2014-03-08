@@ -45,6 +45,7 @@ script:
 
 # wait emulator ready.
     - adb wait-for-device 
+    - cd ..
     - chmod a+x $LIB_DIR/buildscript/lib/wait_for_emulator
     - $LIB_DIR/buildscript/lib/wait_for_emulator
 
