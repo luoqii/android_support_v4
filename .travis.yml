@@ -32,7 +32,7 @@ install:
     - source $LIB_DIR/buildscript/lib/common.sh
     - chmod a+x $LIB_DIR/buildscript/lib/wait_for_emulator
     - $LIB_DIR/buildscript/lib/wait_for_emulator 
-    - rm project.properties
+    - rm project.properties > /dev/null 2>&1
     - update_lib_project . $LIB_DIR
     - cat $LIB_DIR/project.properties
     - cat $LIB_DIR/build.xml
