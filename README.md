@@ -21,7 +21,7 @@ to be added
 
 how to build
 ===================
-add android library at [android common lib](https://github.com/luoqii/android_common_lib).
+android_common_lib.jar come from [android common lib](https://github.com/luoqii/android_common_lib).
 
 
 
