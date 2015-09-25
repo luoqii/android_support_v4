@@ -13,7 +13,7 @@ android:
     - sys-img-armeabi-v7a-android-22
     - sys-img-x86-android-22
     
-before_install:
+script:
 
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
     - emulator -avd test -no-skin -no-audio -no-window &
@@ -21,7 +21,6 @@ before_install:
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
 
-install:
     - export LIB_DIR=../android_common_lib
     - echo yes | git clone https://github.com/luoqii/android_common_lib $LIB_DIR
     - source $LIB_DIR/buildscript/lib/common.sh
@@ -33,7 +32,6 @@ install:
     - cat ../$LIB_DIR/project.properties
     - cat ../$LIB_DIR/build.xml
 
-script:
     - ant debug  
 
     - ant installd
