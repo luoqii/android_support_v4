@@ -35,6 +35,8 @@ script:
     - ant debug  
 
     - ant installd
+    - adb shell monkey -p org.bangbang.android.support.v4 -v 99999 
+    - exit 0
     - cd test/unit
     - chmod a+x run_test.ant
     - adb devices
