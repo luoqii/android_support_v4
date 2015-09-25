@@ -1,5 +1,5 @@
 language: java
-
+sudo: false
 env:
     matrix:
       - ANDROID_TARGET=android-22  ANDROID_ABI=armeabi-v7a
